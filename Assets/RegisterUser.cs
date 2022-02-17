@@ -7,13 +7,14 @@ public class RegisterUser : MonoBehaviour
 {
     public InputField UsernameInput;
     public InputField PasswordInput;
+    public InputField EmailInput;
     public Button RegisterButton; 
 
     // Start is called before the first frame update
     void Start()
     {
         RegisterButton.onClick.AddListener(() => {
-            StartCoroutine(Main.Instance.Web.RegisterUser(UsernameInput.text, PasswordInput.text));
+            StartCoroutine(Main.Instance.Web.RegisterUser(UsernameInput.text, PasswordInput.text, EmailInput.text));
         });
         
     }

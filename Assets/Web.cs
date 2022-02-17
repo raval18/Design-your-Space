@@ -10,8 +10,8 @@ public class Web : MonoBehaviour
         // A correct website page.
         StartCoroutine(GetDate("http://localhost/furnituregame/getData.php"));
         StartCoroutine(GetUser("http://localhost/furnituregame/getUsers.php"));
-        StartCoroutine(Login("testuser","123456"));
-        StartCoroutine(RegisterUser("testuser1","123456"));
+        // StartCoroutine(Login("testuser","123456"));
+        // StartCoroutine(RegisterUser("testuser1","123456"));
 
         // A non-existing page.
         // StartCoroutine(GetRequest("https://error.html"));
@@ -87,13 +87,34 @@ public class Web : MonoBehaviour
             }
         }
     }
-    public IEnumerator RegisterUser(string username, string password)
+    public IEnumerator RegisterUser(string username, string password, string email)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("loginUser", username);
+        form.AddField("loginPass", password);
+        form.AddField("loginEmail", email);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/registerUser.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+            }
+        }
+    }
+    public IEnumerator ForgetPassword(string username, string password)
     {
         WWWForm form = new WWWForm();
         form.AddField("loginUser", username);
         form.AddField("loginPass", password);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/registerUser.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/forgetpassword.php", form))
         {
             yield return www.SendWebRequest();
 
