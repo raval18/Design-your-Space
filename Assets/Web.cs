@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class Web : MonoBehaviour
 {
+    // string output;
     void Start()
     {
         // A correct website page.
@@ -67,47 +68,50 @@ public class Web : MonoBehaviour
             }
         }
     }
-    public IEnumerator Login(string username, string password)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("loginUser", username);
-        form.AddField("loginPass", password);
+    // public IEnumerator Login(string username, string password,string output)
+    // {
+    //     WWWForm form = new WWWForm();
+    //     form.AddField("loginUser", username);
+    //     form.AddField("loginPass", password);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/login.php", form))
-        {
-            yield return www.SendWebRequest();
+    //     using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/login.php", form))
+    //     {
+    //         yield return www.SendWebRequest();
 
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log(www.downloadHandler.text);
-            }
-        }
-    }
-    public IEnumerator RegisterUser(string username, string password, string email)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("loginUser", username);
-        form.AddField("loginPass", password);
-        form.AddField("loginEmail", email);
+    //         if (www.result != UnityWebRequest.Result.Success)
+    //         {
+    //             Debug.Log(www.error);
+    //         }
+    //         else
+    //         {
+    //             output = www.downloadHandler.text;
+    //             Debug.Log(www.downloadHandler.text);
+    //         }
+    //     }
+    // }
+    
+    // public IEnumerator RegisterUser(string username, string password, string email)
+    // {
+    //     WWWForm form = new WWWForm();
+    //     form.AddField("loginUser", username);
+    //     form.AddField("loginPass", password);
+    //     form.AddField("loginEmail", email);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/registerUser.php", form))
-        {
-            yield return www.SendWebRequest();
+    //     using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/registerUser.php", form))
+    //     {
+    //         yield return www.SendWebRequest();
 
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log(www.downloadHandler.text);
-            }
-        }
-    }
+    //         if (www.result != UnityWebRequest.Result.Success)
+    //         {
+    //             Debug.Log(www.error);
+    //         }
+    //         else
+    //         {
+    //             Debug.Log(www.downloadHandler.text);
+    //             // textDisplay = www.downloadHandler.text;
+    //         }
+    //     }
+    // }
     public IEnumerator ForgetPassword(string username, string password)
     {
         WWWForm form = new WWWForm();
