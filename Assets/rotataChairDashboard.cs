@@ -14,7 +14,7 @@ public class rotataChairDashboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        my3DObj.transform.Rotate(0.1f,0f,0f,Space.Self);
+        my3DObj.transform.Rotate(0f,0.1f,0f,Space.Self);
 
     }
 }
