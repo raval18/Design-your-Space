@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using SimpleJSON;
 
 public class Web : MonoBehaviour
 {
+    // string output;
+
     void Start()
     {
         // A correct website page.
@@ -16,6 +19,8 @@ public class Web : MonoBehaviour
         // A non-existing page.
         // StartCoroutine(GetRequest("https://error.html"));
     }
+
+   
 
     public IEnumerator GetDate(string uri)
     {
@@ -67,14 +72,104 @@ public class Web : MonoBehaviour
             }
         }
     }
-    public IEnumerator Login(string username, string password)
+    
+    // public IEnumerator Login(string userID, System.Action<string> callback)
+    // {
+    //     WWWForm form = new WWWForm();
+    //     form.AddField("userID", userID);
+
+    //     using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/getItem.php", form))
+    //     {
+    //         yield return www.SendWebRequest();
+
+    //         if (www.result != UnityWebRequest.Result.Success)
+    //         {
+    //             Debug.Log(www.error);
+    //         }
+    //         else
+    //         {
+    //            byte[] bytes = www.downloadHandler.data;
+
+    //            Texture2D texture = new Texture2D(2,2);
+    //            texture.LoadImage(bytes);
+
+    //         //    Sprite sprite = Sprite.Create(texture, new Rect(0,0, texture.width, texture.height), new Vector2(0.5f,0.5f));
+    //         //    callback(sprite);
+    //         }
+    //     }
+    // }
+
+    // public IEnumerator Login(string username, string password,string output)
+    // {
+    //     WWWForm form = new WWWForm();
+    //     form.AddField("loginUser", username);
+    //     form.AddField("loginPass", password);
+
+    //     using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/login.php", form))
+    //     {
+    //         yield return www.SendWebRequest();
+
+    //         if (www.result != UnityWebRequest.Result.Success)
+    //         {
+    //             Debug.Log(www.error);
+    //         }
+    //         else
+    //         {
+    //             output = www.downloadHandler.text;
+    //             Debug.Log(www.downloadHandler.text);
+    //         }
+    //     }
+    // }
+    
+    // public IEnumerator RegisterUser(string username, string password, string email)
+    // {
+    //     WWWForm form = new WWWForm();
+    //     form.AddField("loginUser", username);
+    //     form.AddField("loginPass", password);
+    //     form.AddField("loginEmail", email);
+
+    //     using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/registerUser.php", form))
+    //     {
+    //         yield return www.SendWebRequest();
+
+    //         if (www.result != UnityWebRequest.Result.Success)
+    //         {
+    //             Debug.Log(www.error);
+    //         }
+    //         else
+    //         {
+    //             Debug.Log(www.downloadHandler.text);
+    //             // textDisplay = www.downloadHandler.text;
+    //         }
+    //     }
+    // }
+    // public IEnumerator ForgetPassword(string username, string password)
+    // {
+    //     WWWForm form = new WWWForm();
+    //     form.AddField("loginUser", username);
+    //     form.AddField("loginPass", password);
+
+    //     using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/forgetpassword.php", form))
+    //     {
+    //         yield return www.SendWebRequest();
+
+    //         if (www.result != UnityWebRequest.Result.Success)
+    //         {
+    //             Debug.Log(www.error);
+    //         }
+    //         else
+    //         {
+    //             Debug.Log(www.downloadHandler.text);
+    //         }
+    //     }
+    // }
+    public IEnumerator GetItemID(string userID, System.Action<string> callback)
     {
         WWWForm form = new WWWForm();
-        form.AddField("loginUser", username);
-        form.AddField("loginPass", password);
-
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/login.php", form))
+        form.AddField("userID", userID);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/getItemID.php", form))
         {
+            // Request and wait for the desired page.
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -84,18 +179,19 @@ public class Web : MonoBehaviour
             else
             {
                 Debug.Log(www.downloadHandler.text);
+                string jsonArray = www.downloadHandler.text;
+
+                callback(jsonArray);
             }
         }
     }
-    public IEnumerator RegisterUser(string username, string password, string email)
+    public IEnumerator GetItemOwn(string itemID, System.Action<string> callback)
     {
         WWWForm form = new WWWForm();
-        form.AddField("loginUser", username);
-        form.AddField("loginPass", password);
-        form.AddField("loginEmail", email);
-
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/registerUser.php", form))
+        form.AddField("itemID", itemID);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/getItem.php", form))
         {
+            // Request and wait for the desired page.
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -104,27 +200,10 @@ public class Web : MonoBehaviour
             }
             else
             {
-                Debug.Log(www.downloadHandler.text);
-            }
-        }
-    }
-    public IEnumerator ForgetPassword(string username, string password)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("loginUser", username);
-        form.AddField("loginPass", password);
+                string jsonArray = www.downloadHandler.text;
+                Debug.Log(jsonArray);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/furnituregame/forgetpassword.php", form))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log(www.downloadHandler.text);
+                callback(jsonArray);
             }
         }
     }
